@@ -1,0 +1,23 @@
+
+    
+    #ej1{
+        display: grid;
+
+        justify-content: center;
+
+        grid-template-rows: 100px 100px 100px 100px 100px 100px 100px 100px;
+        grid-template-columns: 100px 100px 100px 100px 100px 100px 100px 100px;
+        grid-gap: 5px;
+    }
+
+    #ej1>span{
+        width: 100%;
+        height: 100%;
+
+        margin: 0; 
+    }
+
+    #ej1>.one{
+        grid-column: 1/2;
+        grid-row: 1/3;
+    }
