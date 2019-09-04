@@ -31,11 +31,7 @@ nav{
 }
 
 .btn{
-    color: white;
     margin: 0.5em;
-
-
-
 }
 .red{
     background: red;
@@ -52,12 +48,15 @@ main{
     justify-content: center;
     align-items: center;
 }
-/*
+
 main hr{
-    width: 
+    width: 80%;
+    background: white;
+    height: 7px;
+    border: none;
 
 }
-*/
+
 main>img{
     width: 50%;
     height: auto;
@@ -101,7 +100,6 @@ footer{
     display: flex;
     justify-content: space-between;
 }
-/*
 footer>span{
-
-}*/
+    text-decoration-line: underline;
+}
