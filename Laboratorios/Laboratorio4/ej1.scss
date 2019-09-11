@@ -1,6 +1,15 @@
 @import url('https://fonts.googleapis.com/css?family=Chilanka&display=swap');
 @import "variables";
 
+@mixin flex($direction, $justify, $align, $flow) {
+    
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $justify;
+    align-items: $align;
+    flex-flow: $flow;
+}
+
 body {
     box-sizing: border-box;
     height: 100vh;
@@ -14,11 +23,7 @@ body {
     padding: 1em 5%;
     margin: 0;
 
-    display: flex;
-    flex-direction: column;
-
-    justify-content: space-between;
-    align-items: center;
+    @include flex(column, space-between, center, none);
 
     font-family: 'Quicksand', sans-serif;
 }
@@ -27,10 +32,7 @@ nav {
     width: 100%;
     height: auto;
 
-    display: flex;
-
-    flex-flow: row wrap;
-    justify-content: flex-end;
+    @include flex(none, flex-end, none, row wrap);
 }
 
 h1 {
@@ -77,13 +79,7 @@ main {
     width: 60%;
     height: auto;
 
-    display: flex;
-
-    flex-direction: column;
-    flex-flow: wrap;
-
-    justify-content: center;
-    align-items: center;
+    @include flex(column, center, center, wrap);
 
     hr {
         width: 80%;
@@ -99,7 +95,6 @@ main {
 
         display: flex;
         flex-flow: row wrap;
-
         justify-content: center;
 
         >img {
@@ -141,7 +136,6 @@ footer {
 
     display: flex;
     justify-content: space-between;
-
     >.btn {
         text-decoration-line: underline;
         background: black;
