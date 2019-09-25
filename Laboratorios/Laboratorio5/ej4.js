@@ -4,11 +4,17 @@
  */
 
 function aleatorio(aleatorios, numero){
-    var isEsta = true;
+    var isEsta = false;
     for(var i=0; i<aleatorios.length; i++){
-        
+        if(aleatorios[i]==numero){
+            isEsta=true;
+            console.log("El numero esta en el arreglo");
+            break;
+        }
+        if(isEsta==false){
+            console.log("El numero no esta en el arreglo");
+        }
     }
-    
 }
 
 var numero= 7;
@@ -17,4 +23,5 @@ for (var i=0; i<20; i++){
     ramdom = (Math.floor(Math.random() *20)+1);
     aleatorios.push(ramdom);
 }
+console.log(aleatorios);
 aleatorio(aleatorios, numero)
