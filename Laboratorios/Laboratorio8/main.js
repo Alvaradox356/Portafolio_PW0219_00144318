@@ -1,74 +1,120 @@
-let carnet_field =  document.querySelector("#carnet_field")
-    let schedule_dropdown =  document.querySelector("#schedule_field")
-    let late_switch =  document.querySelector("#late_switch")
-    let submit_btn =  document.querySelector("#submit_btn")
+var rows = [];
+var countID=0;
 
-    let table_body = document.querySelector("#table_body")
-    let carnet_regex= new RegExp('^[0-9]{8}$')
 
-    /*
-        Función para agregar un hijo a la tabla
-    */
+var parseLateSwitch = (value)=> {
+    if(value){
+        return "Tarde";
+    }
+    return "A tiempo";
+};
 
-    let addStudent = (carnet, schedule, late)=>{
-        let new_row = document.createElement("tr")
-        let datetime = new Date()
+function addRow(carnet, schedule, late, tBody){
+    var newRow = document.createElement("tr");
+    var date = new Date();
+
+    rows.push({
+        "id":0,
+        "carnet": carnet,
+        "schedule": schedule,
+        "late": late
+    });
+
+    
+
+    newRow.innerHTML = `<td><b>${carnet}</b></td> 
+    <td>${schedule}</td> 
+    <td>${date.toLocaleString()}</td>
+    <td>${late}</td>`;
+
+    var cellContainer= document.createElement("td");
+    var deleteButton= document.createElement("button");
+    var checkInput= document.createElement("input");
+
+    deleteButton.classList.add("btn");
+    deleteButton.classList.add("btn-danger");
+
+    deleteButton.innerText= "Eliminar";
+    deleteButton.value= countID;
+    var carnetv = document.querySelector("#carnet_field");
+
+
+
+
+    checkInput.addEventListener("keyup", function(event){
+        var carnet= carnetv.value;
+        var idEvent= event.srcElement.value;
+        if(carnet==idEvent){
+            deleteButton.addEventListener("click", function(event){
+                var idElement = event.srcElement.value;
+                var trToDelete = document.querySelector(`button[value='${idElement}']`).parentElement.parentElement;
+                
         
-        new_row.classList.add("table-active")
-        new_row.innerHTML = 
-            `<th scope='row'>${carnet}</th>
-            <td>${schedule}</td>
-            <td>${datetime.toLocaleString()}</td>
-            <td>${late}</td>`
-        table_body.appendChild(new_row)
-    }
-
-    /*
-        Función para parsear el valor booleano del late_switch
-    */
-
-    let parseLateSwitch= (value)=>{
-        if(value){
-            return "Tardisimo"
+                tBody.removeChild(trToDelete);
+                rows.forEach((item, index)=>{
+                    if(item.id==idElement){
+                        rows.splice(index, 1);
+                    }
+                });
+            });
+            
         }
-        return "A tiempo"
-    }
+  
 
-    /*
-        Listener para detectar el click en el boton
-    */
+    });
 
+    
+
+
+
+
+    cellContainer.appendChild(deleteButton);
+    newRow.appendChild(cellContainer);
+
+    cellContainer.appendChild(checkInput);
+    newRow.appendChild(checkInput);
+
+
+    tBody.appendChild(newRow);
+    countID++;
+
+};
+
+
+
+window.onload = function()
+{
+    var submit_btn = document.querySelector("#submit_btn");
+    var carnet_field = document.querySelector("#carnet_field");
+    var schedule_field = document.querySelector("#schedule_field");
+    var late_switch = document.querySelector("#late_switch");
+    var tBody = document.querySelector("#table_body");
+
+    var carnetRegex = new RegExp('[0-9]{8}');
+
+    
     submit_btn.addEventListener("click", ()=>{
-        let carnet = carnet_field.value
-        let schedule = schedule_dropdown.options[schedule_dropdown.selectedIndex].text
-        let late = parseLateSwitch(late_switch.checked)
-
-        addStudent(carnet, schedule, late)
-
-        if(carnet_regex.test(carnet)){
-            addStudent(carnet, schedule, late)
-        }else{
-            alert("Formáto de carnet no válido")
+        var carnet = carnet_field.value;
+        var schedule = schedule_field.options[schedule_field.selectedIndex].text;
+        var late = parseLateSwitch (late_switch.checked);
+        if (carnetRegex.test(carnet)){
+            addRow(carnet, schedule, late, tBody);
         }
-    })
-
-    carnet_field.addEventListener("keyup", (e)=>{
-        let keyCode = e.keyCode
-    /*
-        Listener para disparar el botón cuando se aprete enter
-    */
-
-    carnet_field.addEventListener("keyup", (event)=>{
-        let keyCode = event.keyCode
-        let carnet = carnet_field.value
-
-        if(keyCode == 13){
-            submit_btn.click()
+        else{
+            alert("formato no valido")
         }
 
-        if(carnet_regex.test(carnet)){
-        submit_btn.disabled = false; 
-        }else{
-            submit_btn.disabled = true; 
+    });
+
+    carnet_field.addEventListener("keyup", (event)=> {
+        var carnet = carnet_field.value;
+        //console.log(event.keyCode);
+        if (carnetRegex.test(carnet)){
+            submit_btn.disabled = false;
         }
-    })
+        else{
+            submit_btn.disabled = true;
+        }
+
+    });
+}
